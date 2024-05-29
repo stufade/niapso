@@ -1,0 +1,14 @@
+version: "3.8"
+services:
+ server:
+  image: httpd:latest
+  ports:
+  - 80:80
+  volumes:
+  - ./server/:/usr/local/apache2/htdocs/
+ client:
+  build: client/
+  command: python ./client.py
+  network_mode: host
+  depends_on:
+  - server

@@ -1,0 +1,37 @@
+services:
+  server:
+    image: httpd:latest
+    ports:
+      - 80:80
+    volumes:
+      - ./server/:/usr/local/apache2/htdocs/
+
+  mysql:
+    image: mysql
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: db
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    volumes:
+      - mysql:/var/lib/mysql
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    ports:
+      - 8080:80
+    environment:
+      PMA_HOST: mysql
+    depends_on:
+      - mysql
+
+  client:
+    build: client/
+    command: python ./client.py
+    network_mode: host
+    depends_on:
+      - server
+
+volumes:
+  mysql:
