@@ -18,10 +18,10 @@ FROM openjdk:17-jdk-slim
 WORKDIR /usr/src/app
 
 # Копируем скомпилированные классы из первого этапа в рабочую директорию текущего контейнера
-COPY --from=build /usr/src/app/target/classes/com/example/maven/MainApplication.class .
+COPY --from=build /usr/src/app/target/classes/com/example/main/MainApplication.class .
 
 # Копируем собранный jar-файл из первого этапа в контейнер
-COPY --from=build /usr/src/app/target/maven-1.0-SNAPSHOT.jar ./app.jar
+COPY --from=build /usr/src/app/target/main-1.0-SNAPSHOT.jar ./app.jar
 
 # Задаем команду для запуска jar-файла
 CMD ["java", "-jar", "app.jar"]
